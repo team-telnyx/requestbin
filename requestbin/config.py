@@ -1,4 +1,7 @@
-import os, urlparse
+from datetime import timedelta
+import os
+import urlparse
+
 DEBUG = True
 REALM = os.environ.get('REALM', 'local')
 
@@ -11,7 +14,9 @@ CORS_ORIGINS = "*"
 
 FLASK_SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY", "N1BKhJLnBqLpexOZdklsfDKFJDKFadsfs9a3r324YB7B73AglRmrHMDQ9RhXz35")
 
-BIN_TTL = 48*3600
+BIN_TTL = int(os.environ.get("BIN_TTL", timedelta(days=2).total_seconds()))
+EXTENDED_TTL = int(os.environ.get("EXTENDED_TTL", timedelta(days=5 * 365).total_seconds()))
+
 STORAGE_BACKEND = "requestbin.storage.memory.MemoryStorage"
 MAX_RAW_SIZE = int(os.environ.get('MAX_RAW_SIZE', 1024*10))
 IGNORE_HEADERS = []

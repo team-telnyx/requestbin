@@ -8,8 +8,7 @@ from requestbin import config
 class MemoryStorage():
     cleanup_interval = config.CLEANUP_INTERVAL
 
-    def __init__(self, bin_ttl):
-        self.bin_ttl = bin_ttl
+    def __init__(self):
         self.bins = {}
         self.request_count = 0
 
@@ -22,13 +21,12 @@ class MemoryStorage():
             self._expire_bins()
 
     def _expire_bins(self):
-        expiry = time.time() - self.bin_ttl
         for name, bin in self.bins.items():
-            if bin.created < expiry:
+            if bin.created + bin.ttl < time.time():
                 self.bins.pop(name)
 
-    def create_bin(self, private=False):
-        bin = Bin(private)
+    def create_bin(self, ttl, name=None, private=False):
+        bin = Bin(ttl, name, private)
         self.bins[bin.name] = bin
         return self.bins[bin.name]
 

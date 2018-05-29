@@ -1,8 +1,12 @@
+from datetime import timedelta
 import json
 import operator
 
 from flask import session, make_response, request, render_template
-from requestbin import app, db
+from slugify import slugify
+
+from requestbin import app, config, db
+
 
 def _response(object, code=200):
     jsonp = request.args.get('jsonp')
@@ -18,8 +22,18 @@ def _response(object, code=200):
 
 @app.endpoint('api.bins')
 def bins():
-    private = request.form.get('private') in ['true', 'on']
-    bin = db.create_bin(private)
+    data = request.json
+    if data is None:
+        return _response({'error': 'no JSON provided'}, code=415)
+    private = bool(data.get('private'))
+    durable = bool(data.get('durable'))
+
+    name = data.get('name')
+    if name:
+        name = slugify(name, max_length=40)
+
+    ttl = config.EXTENDED_TTL if durable else config.BIN_TTL
+    bin = db.create_bin(name, private, ttl)
     if bin.private:
         session[bin.name] = bin.secret_key
     return _response(bin.to_dict())

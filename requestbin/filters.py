@@ -5,26 +5,33 @@ import os
 import time
 import urllib
 
-def approximate_time(ts):
+
+def approximate_time(ts, future=False):
     if not isinstance(ts, (int, long, float, complex)):
         return ""
 
     now = time.time()
     diff = now - ts
+    if future:
+        diff = -diff
 
     if diff < 0:
         return "now"
-    elif diff < 60:
+    elif diff < 1.5 * 60:  # display up to "90 seconds"
         return "{}s".format(int(diff))
-    elif diff < 60 * 60:
-        minutes = diff / 60.0
+    elif diff < 1.5 * 60 * 60:  # display up to "90 minutes"
+        minutes = diff / (60.0)
         return "{}m".format(int(minutes))
-    elif diff < 60 * 60 * 24:
+    elif diff < 3 * 60 * 60 * 24:  # display up to "72 hours"
         hours = diff / (60.0 * 60.0)
         return "{}h".format(int(hours))
     else:
         days = diff / (60.0 * 60.0 * 24.0)
         return "{}d".format(int(days))
+
+
+def future_time(ts):
+    return approximate_time(ts, future=True)
 
 
 def friendly_size(bytes):
@@ -92,7 +99,7 @@ def time_class(secs):
         return "error"
 
     if ms > 1000:
-        return "warning" 
+        return "warning"
 
     return ""
 
@@ -112,7 +119,7 @@ def to_qs(params_dict):
             qs = qs + u"{}={}".format(k, v)
     return qs
 
-    
+
 def short_date(input):
     dt = None
     if isinstance(input, (str, unicode)):

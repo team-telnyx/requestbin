@@ -1,5 +1,5 @@
 gevent==1.0.2
-greenlet==0.4.1
+greenlet==0.4.13
 ProxyTypes==0.9
 nose==1.3.0
 wsgiref==0.1.2
@@ -14,3 +14,4 @@ python-dateutil==2.1
 gunicorn
 bugsnag
 blinker
+python-slugify

@@ -12,8 +12,7 @@ from requestbin import config
 class RedisStorage():
     prefix = config.REDIS_PREFIX
 
-    def __init__(self, bin_ttl):
-        self.bin_ttl = bin_ttl
+    def __init__(self):
         self.redis = redis.StrictRedis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=config.REDIS_DB, password=config.REDIS_PASSWORD)
 
     def _key(self, name):
@@ -22,18 +21,18 @@ class RedisStorage():
     def _request_count_key(self):
         return '{}-requests'.format(self.prefix)
 
-    def create_bin(self, private=False):
-        bin = Bin(private)
+    def create_bin(self, ttl, name=None, private=False):
+        bin = Bin(ttl, name, private)
         key = self._key(bin.name)
         self.redis.set(key, bin.dump())
-        self.redis.expireat(key, int(bin.created+self.bin_ttl))
+        self.redis.expireat(key, int(bin.created + bin.ttl))
         return bin
 
     def create_request(self, bin, request):
         bin.add(request)
         key = self._key(bin.name)
         self.redis.set(key, bin.dump())
-        self.redis.expireat(key, int(bin.created+self.bin_ttl))
+        self.redis.expireat(key, int(bin.created + bin.ttl))
 
         self.redis.setnx(self._request_count_key(), 0)
         self.redis.incr(self._request_count_key())

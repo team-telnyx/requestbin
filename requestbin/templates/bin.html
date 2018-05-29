@@ -5,6 +5,7 @@
 {% block sidebar %}{% endblock %}
 
 {% block binurl %}
+  <small>bin expires in {{ bin.expiry|future_time }}</small>
   <a href="/{{bin.name}}?inspect"><i class="icon-circle icon-2x" style="color: rgb{{bin.color}}"></i></a>
   <input type="text" value="{{base_url}}/{{bin.name}}" onclick="this.select()" />
   {% if bin.private %}<i class="icon-lock"></i>{% endif %}
@@ -20,7 +21,7 @@
           <div class="row-fluid">
             <div class="span4">
               {{base_url}}<br>
-              <span class="method">{{request.method}}</span> 
+              <span class="method">{{request.method}}</span>
               <span class="absolute-path">{{request.path}}</span><span class="querystring">{{request.query_string|to_qs}}</span>
             </div>
             <div class="span6 content">
@@ -44,7 +45,7 @@
 
       <h4 class="text-center">Bin URL</h4>
       <h2 class="text-center">
-        <input class="xxlarge input-xxlarge" type="text" value="{{base_url}}/{{bin.name}}" onclick="this.select()" style="border-color: rgb{{bin.color}}; border-width: 3px;" /></h2>
+        <input class="{% if bin.name|length <= 8 %}xxlarge{% endif %} input-xxlarge" type="text" value="{{base_url}}/{{bin.name}}" onclick="this.select()" style="border-color: rgb{{bin.color}}; border-width: 3px;" /></h2>
       <p class="text-center">{% if bin.private %}This is a private bin. Requests are only viewable from this computer.{% endif %}
 
       <hr>
@@ -168,7 +169,7 @@ public class RequestBinTutorial {
             {% else %}
               <p class="keypair"><strong>{{k}}:</strong> {{v}}</p>
             {% endif %}
-          {% endfor %} 
+          {% endfor %}
         {% endif %}
       </div>
       <div class="span8">
@@ -183,7 +184,7 @@ public class RequestBinTutorial {
 
     <h5>RAW BODY</h5>
     <div class="request-body" data-id="{{ request.id }}">
-<pre class="body prettyprint">{%if request.raw%}{{request.raw}}{%else%}<em>None</em>{%endif%}</pre>
+      <pre class="body prettyprint">{%if request.raw%}{{request.raw}}{%else%}<em>None</em>{%endif%}</pre>
 
   </div>
 </div>

@@ -2,8 +2,13 @@
 {% block head %}
     <script type="text/javascript">
       function createBin() {
-        $.ajax({'url': '/api/v1/bins', 'type': 'POST', 
-          'data': {'private': $('#private').prop("checked")},
+        $.ajax({'url': '/api/v1/bins', 'type': 'POST',
+          'contentType': 'application/json',
+          'data': JSON.stringify({
+            'private': $('#private').prop("checked"),
+            'durable': $('#durable').prop("checked"),
+            'name': $('#binname').val(),
+          }),
           'success': function(data) {
             window.location.href = "/"+data['name']+"?inspect";
           }
@@ -23,12 +28,26 @@
               <p class="banner-button">
                 <a class="btn btn-success btn-large" onclick="createBin()"><i class="icon-plus-sign"></i> Create a RequestBin</a>
               </p>
-              
+
               <p class="banner-option">
                 <label class="checkbox" title="Private bins can only be viewed by you using a browser cookie">
                   <input id="private" type="checkbox" /> &nbsp;Private <small>(only viewable from this browser)</small>
                 </label>
               </p>
+
+              <p class="banner-option">
+                <label class="checkbox" title="Long-term bins will last for a while.">
+                  <input id="durable" type="checkbox" /> &nbsp;Long-term
+                  <small>(last for a year or so, versus a 48 hour default)</small>
+                </label>
+              </p>
+
+              <p class="banner-option">
+                <label class="textentry" title="The name will be slugified and appended to a random ID">
+                  Name <small>(a descriptive suffix, optional)</small>&nbsp;<input id="binname" type="input" />
+                </label>
+              </p>
+
             </form>
         </div>
     </div>
