@@ -10,3 +10,11 @@ app:
 
 redis:
     image: redis
+
+app_drc:  # dev redis cluster
+    build: .
+    environment:
+        REALM: prod
+        REDIS_URL: "//messaging-outbound.service.dev-central.consul:6381/14"  # messaging-tertiary, db 14
+    ports:
+        - "4001:8000"

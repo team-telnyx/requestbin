@@ -31,6 +31,11 @@ def home():
     return render_template('home.html', recent=expand_recent_bins())
 
 
+@app.endpoint('views.health')
+def health():
+    return "OK", 200
+
+
 @app.endpoint('views.bin')
 def bin(name):
     try:

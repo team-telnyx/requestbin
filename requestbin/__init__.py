@@ -70,6 +70,7 @@ app.jinja_env.filters['exact_time'] = exact_time
 app.jinja_env.filters['short_date'] = short_date
 
 app.add_url_rule('/', 'views.home')
+app.add_url_rule('/health', 'views.health')
 app.add_url_rule('/<path:name>', 'views.bin', methods=['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS', 'HEAD', 'PATCH', 'TRACE'])
 
 app.add_url_rule('/docs/<name>', 'views.docs')

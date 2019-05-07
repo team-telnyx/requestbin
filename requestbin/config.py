@@ -12,7 +12,7 @@ PORT_NUMBER = 4000
 ENABLE_CORS = False
 CORS_ORIGINS = "*"
 
-FLASK_SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY", "N1BKhJLnBqLpexOZdklsfDKFJDKFadsfs9a3r324YB7B73AglRmrHMDQ9RhXz35")
+FLASK_SESSION_SECRET_KEY = os.environ.get("SESSION_SECRET_KEY", "e239163aa2008311405b2eae0c4c617ae88d49075c31119c0d2b59141e294e94")
 
 BIN_TTL = int(os.environ.get("BIN_TTL", timedelta(days=2).total_seconds()))
 EXTENDED_TTL = int(os.environ.get("EXTENDED_TTL", timedelta(days=5 * 365).total_seconds()))
