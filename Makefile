@@ -11,7 +11,7 @@ docker_build_args = \
 	--build-arg BUILD_NUMBER=$(BUILD_NUMBER)
 
 # messaging-tertiary redis (via messaging-proxy), database 14
-redis_url := //messaging-outbound.service.dev-central.consul:6381/14
+redis_url := redis://messaging-outbound.service.dev-central.consul:6384/14
 
 .PHONY: build
 build:

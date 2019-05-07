@@ -1,5 +1,9 @@
 from datetime import timedelta
+import logging
 import os
+
+logging.basicConfig(level=logging.WARNING)
+_LOG = logging.getLogger(__name__)
 
 DEBUG = True
 REALM = os.environ.get('REALM', 'local')
@@ -22,9 +26,10 @@ CLEANUP_INTERVAL = 3600
 STORAGE_BACKEND = "requestbin.storage.memory.MemoryStorage"
 REDIS_URL = os.environ.get("REDIS_URL")
 if REDIS_URL:
-    STORAGE_BACKEND = "requestbin.storage.redis.RedisStorage"
+    _LOG.warning("Using Redis: {}".format(REDIS_URL))
 
-REDIS_PREFIX = "requestbin"
+    STORAGE_BACKEND = "requestbin.storage.redis.RedisStorage"
+    REDIS_PREFIX = "requestbin"
 
 BUGSNAG_KEY = ""
 
