@@ -2,7 +2,7 @@ app:
     build: .
     environment:
         REALM: prod
-        REDIS_URL: "//redis:6379"
+        REDIS_URL: "redis://redis:6379/9"
     links:
         - redis
     ports:
@@ -15,6 +15,6 @@ app_drc:  # dev redis cluster
     build: .
     environment:
         REALM: prod
-        REDIS_URL: "//messaging-outbound.service.dev-central.consul:6381/14"  # messaging-tertiary, db 14
+        REDIS_URL: "redis://messaging-outbound.service.dev-central.consul:6381/14"  # messaging-tertiary, db 14
     ports:
         - "4001:8000"

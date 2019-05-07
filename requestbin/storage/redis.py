@@ -13,7 +13,7 @@ class RedisStorage():
     prefix = config.REDIS_PREFIX
 
     def __init__(self):
-        self.redis = redis.StrictRedis(host=config.REDIS_HOST, port=config.REDIS_PORT, db=config.REDIS_DB, password=config.REDIS_PASSWORD)
+        self.redis = redis.StrictRedis.from_url(config.REDIS_URL)
 
     def _key(self, name):
         return '{}_{}'.format(self.prefix, name)
