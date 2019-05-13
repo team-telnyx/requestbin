@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SERVICE_NAME = 'requestbin'
-        TARGET_HOSTS = 'dev_messaging_services'
+        TARGET_HOSTS = 'dev_messaging_ch1_01'  // need to keep on same redis cluster
         SLACK_CHANNEL = 'squad-messaging-jenk'
     }
 
