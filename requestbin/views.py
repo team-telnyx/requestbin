@@ -1,4 +1,4 @@
-import urllib
+import urllib, json
 from flask import session, redirect, url_for, escape, request, render_template, make_response
 
 from requestbin import app, db
