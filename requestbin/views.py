@@ -42,10 +42,12 @@ def bin(name):
         bin = db.lookup_bin(name)
     except KeyError:
         return "Not found\n", 404
-    if request.query_string == 'inspect':
+    if request.query_string in ['inspect', 'inspectjson']:
         if bin.private and session.get(bin.name) != bin.secret_key:
             return "Private bin\n", 403
         update_recent_bins(name)
+        if request.query_string == 'inspectjson':
+            return make_response(json.dumps(bin))
         return render_template('bin.html',
             bin=bin,
             base_url=request.scheme+'://'+request.host)
