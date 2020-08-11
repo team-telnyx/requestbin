@@ -1,4 +1,4 @@
-import urllib, json
+import urllib
 from flask import session, redirect, url_for, escape, request, render_template, make_response
 
 from requestbin import app, db
@@ -42,12 +42,12 @@ def bin(name):
         bin = db.lookup_bin(name)
     except KeyError:
         return "Not found\n", 404
-    if request.query_string in ['inspect', 'inspectjson']:
+    if request.query_string in ['inspect', 'inspectraw']:
         if bin.private and session.get(bin.name) != bin.secret_key:
             return "Private bin\n", 403
         update_recent_bins(name)
-        if request.query_string == 'inspectjson':
-            return make_response(json.dumps(bin))
+        if request.query_string == 'inspectraw':
+            return make_response(bin.dump())
         return render_template('bin.html',
             bin=bin,
             base_url=request.scheme+'://'+request.host)
