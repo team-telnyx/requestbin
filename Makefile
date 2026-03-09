@@ -1,7 +1,7 @@
 service := requestbin
 tag := red
 
-main_image := registry:5000/jenkins/$(service):$(tag)
+main_image := registry.internal.telnyx.com/jenkins/$(service):$(tag)
 docker_build_args = \
 	--build-arg GIT_COMMIT=$(shell git show -s --format=%H) \
 	--build-arg GIT_COMMIT_DATE="$(shell git show -s --format=%ci)" \
@@ -11,7 +11,7 @@ docker_build_args = \
 	--build-arg BUILD_NUMBER=$(BUILD_NUMBER)
 
 # messaging-tertiary redis (via messaging-proxy), database 14
-redis_url := redis://messaging-outbound.service.dev-central.consul:6384/14
+redis_url := redis://valkey-messaging-cache2.query.dev.telnyx.io:6379/14
 
 .PHONY: build
 build:

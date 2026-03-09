@@ -1,0 +1,18 @@
+names:
+  service: requestbin
+
+project:
+  squad: messaging.squad
+  primary_maintainer: felipe
+  secondary_maintainer: lorcan
+  public_api: false
+  private_api: false
+
+build:
+  allow_vulnerable_image: true
+  allow_vulnerable_code: true
+  allow_secret_plaintext: true
+  promote_to_dev:
+    mode: always
+  promote_to_prod:
+    mode: always
