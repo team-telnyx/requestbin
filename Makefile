@@ -1,7 +1,7 @@
 service := requestbin
 tag := red
 
-main_image := registry:5000/jenkins/$(service):$(tag)
+main_image := registry.internal.telnyx.com/jenkins/$(service):$(tag)
 docker_build_args = \
 	--build-arg GIT_COMMIT=$(shell git show -s --format=%H) \
 	--build-arg GIT_COMMIT_DATE="$(shell git show -s --format=%ci)" \
